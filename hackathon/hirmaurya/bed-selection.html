@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .bed-selection-container,
+        .payment-section,
+        .slot-booking-section {
+            background-color: white;
+            margin: 30px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Bed Selection Section */
+        .bed-selection-container {
+            text-align: center;
+        }
+
+        .beds-layout {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            justify-items: center;
+            padding: 20px;
+        }
+
+        .bed {
+            width: 60px;
+            height: 100px;
+            background-color: #fff;
+            border: 3px solid #007bff;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .bed:before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background-color: #007bff;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .bed:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background-color: #007bff;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .bed .mattress {
+            width: 100%;
+            height: 80%;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .bed.occupied {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            cursor: not-allowed;
+        }
+
+        .bed.occupied .mattress {
+            background-color: #f5c6cb;
+        }
+
+        .bed.selected {
+            background-color: #cce5ff;
+            transform: scale(1.05);
+        }
+
+        .bed.selected .mattress {
+            background-color: #e2e6ea;
+        }
+
+        .payment-section {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="button"],
+        button[type="submit"] {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover,
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 600px) {
+            .bed-selection-container,
+            .payment-section,
+            .slot-booking-section {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Slot Booking Section -->
+    <div class="slot-booking-section">
+        <h3>Book a Slot</h3>
+        <label for="slot-time">Select Slot Time:</label><br>
+        <select id="slot-time" name="slot-time" required>
+            <option value="9am-10am">9:00 AM - 10:00 AM</option>
+            <option value="10am-11am">10:00 AM - 11:00 AM</option>
+            <option value="2pm-3pm">2:00 PM - 3:00 PM</option>
+            <option value="3pm-4pm">3:00 PM - 4:00 PM</option>
+        </select><br><br>
+    </div>
+
+    <!-- Bed Selection Section -->
+    <div class="bed-selection-container">
+        <h2>Select a Bed</h2>
+        <div class="beds-layout">
+            <div class="bed" data-bed-number="1">1</div>
+            <div class="bed occupied" data-bed-number="2">2</div>
+            <div class="bed" data-bed-number="3">3</div>
+            <div class="bed" data-bed-number="4">4</div>
+            <div class="bed" data-bed-number="5">5</div>
+            <div class="bed" data-bed-number="6">6</div>
+            <div class="bed" data-bed-number="7">7</div>
+            <div class="bed occupied" data-bed-number="8">8</div>
+            <div class="bed" data-bed-number="9">9</div>
+            <div class="bed" data-bed-number="10">10</div>
+        </div>
+        <div class="selected-bed">Selected Bed: None</div>
+    </div>
+
+    <!-- Payment Section -->
+    <div class="payment-section">
+        <h2>Payment Details</h2>
+        <form action="submit-payment.html" method="POST">
+            <label for="payment-method">Select Payment Method:</label><br>
+            <select id="payment-method" name="payment-method" required>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="net-banking">Net Banking</option>
+                <option value="upi">UPI</option>
+            </select><br><br>
+
+            <!-- Credit/Debit Card Details -->
+            <div id="card-details">
+                <label for="card-number">Card Number:</label><br>
+                <input type="text" id="card-number" name="card-number" required><br><br>
+
+                <label for="expiry-date">Expiry Date:</label><br>
+                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required><br><br>
+
+                <label for="cvv">CVV:</label><br>
+                <input type="text" id="cvv" name="cvv" required><br><br>
+            </div>
+
+            <!-- PayPal Section -->
+            <div id="paypal-details" class="hidden">
+                <label for="paypal-id">PayPal ID:</label><br>
+                <input type="email" id="paypal-id" name="paypal-id" placeholder="example@paypal.com" required><br><br>
+            </div>
+
+            <!-- Net Banking Section -->
+            <div id="netbanking-details" class="hidden">
+                <label for="bank-account">Bank Account Number:</label><br>
+                <input type="text" id="bank-account" name="bank-account" required><br><br>
+
+                <label for="ifsc-code">IFSC Code:</label><br>
+                <input type="text" id="ifsc-code" name="ifsc-code" required><br><br>
+            </div>
+
+            <!-- UPI Section -->
+            <div id="upi-details" class="hidden">
+                <label for="upi-id">UPI ID:</label><br>
+                <input type="text" id="upi-id" name="upi-id" placeholder="example@upi" required><br><br>
+                <div class="qr-code">
+                    <img src="your-qr-code-image.png" alt="UPI QR Code">
+                    <p>Scan the QR code to pay using UPI</p>
+                </div>
+            </div>
+
+            <button type="submit">Make Payment</button>
+        </form>
+    </div>
+
+ 
+
+    <script>
+        // JavaScript to handle bed selection
+        const beds = document.querySelectorAll('.bed');
+        const selectedBedDisplay = document.querySelector('.selected-bed');
+        const paymentMethod = document.getElementById('payment-method');
+        const cardDetails = document.getElementById('card-details');
+        const paypalDetails = document.getElementById('paypal-details');
+        const netbankingDetails = document.getElementById('netbanking-details');
+        const upiDetails = document.getElementById('upi-details');
+
+        beds.forEach(bed => {
+            bed.addEventListener('click', () => {
+                if (!bed.classList.contains('occupied')) {
+                    beds.forEach(b => b.classList.remove('selected'));
+                    bed.classList.add('selected');
+                    selectedBedDisplay.textContent = 'Selected Bed: ' + bed.dataset.bedNumber;
+                }
+            });
+        });
+
+        paymentMethod.addEventListener('change', () => {
+            cardDetails.classList.add('hidden');
+            paypalDetails.classList.add('hidden');
+            netbankingDetails.classList.add('hidden');
+            upiDetails.classList.add('hidden');
+
+            if (paymentMethod.value === 'credit-card' || paymentMethod.value === 'debit-card') {
+                cardDetails.classList.remove('hidden');
+            } else if (paymentMethod.value === 'paypal') {
+                paypalDetails.classList.remove('hidden');
+            } else if (paymentMethod.value === 'net-banking') {
+                netbankingDetails.classList.remove('hidden');
+            } else if (paymentMethod.value === 'upi') {
+                upiDetails.classList.remove('hidden');
+            }
+        });
+    </script>
+
+
+</body>
+</html>

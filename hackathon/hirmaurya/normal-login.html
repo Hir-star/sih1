@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normal Login - Patient Details</title>
+    <style>
+       /* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.top-nav {
+    background-color: #333;
+    padding: 10px 20px;
+    text-align: right;
+}
+
+.top-nav .nav-links a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.top-nav .nav-links a:hover {
+    background-color: #575757;
+    color: white;
+}
+
+/* Form Container */
+.patient-details-container,
+.health-issues-container,
+.hospital-selection-container,
+.submit-container {
+    background-color: white;
+    margin: 30px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+}
+
+button[type="submit"],
+button[type="button"] {
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Responsive Styling */
+@media (max-width: 600px) {
+    .patient-details-container,
+    .health-issues-container,
+    .bed-selection-container,
+    .submit-container {
+        width: 95%;
+    }
+}
+
+
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation Bar with Help and About Us -->
+    <div class="top-nav">
+        <div class="nav-links">
+            <a href="help.html">Help</a>
+            <a href="about-us.html">About Us</a>
+        </div>
+    </div>
+
+    <!-- Patient Details Form -->
+    <div class="patient-details-container">
+        <h2>Patient Details</h2>
+        <form action="submit-patient-details.html" method="POST">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="dob">Date of Birth (DOB):</label><br>
+            <input type="date" id="dob" name="dob" required><br><br>
+
+            <label for="age">Age:</label><br>
+            <input type="number" id="age" name="age" required><br><br>
+
+            <label for="blood-group">Blood Group:</label><br>
+            <input type="text" id="blood-group" name="blood-group" required><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="gender">Gender:</label><br>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br><br>
+
+            <label for="contact">Contact No:</label><br>
+            <input type="tel" id="contact" name="contact" required><br><br>
+
+            <label for="address">Location Address:</label><br>
+            <textarea id="address" name="address" required></textarea><br><br>
+        </form>
+    </div>
+
+    <!-- Health Issues Section -->
+    <div class="health-issues-container">
+        <h2>Health Issues</h2>
+        <form>
+            <label for="health-issue">Select Health Issue:</label><br>
+            <select id="health-issue" name="health-issue" required>
+                <option value="orthopedic">Orthopedic</option>
+                <option value="radiology">Radiology</option>
+                <option value="dermatology">Dermatology</option>
+                <option value="cardiology">Cardiology</option>
+            </select><br><br>
+
+            <!-- Hospital Selection Section -->
+    <div class="hospital-selection-container">
+        <h2>Hospital Name</h2>
+        <from>
+            <label for="hospital-name"> Select Hospital Name</label>
+            <select id="hospital-name" name="hospital-name" required>
+                <option value="Zydus Hospital">Zydus Hospital</option>
+                <option value="Iris Hospital">Iris Hospital</option>
+                <option value="Anand City Hospital">Anand City Hospital</option>
+                <option value="Deep Hospital">Deep Hospital</option>
+                <option value="Swastik Hospital">Swastik Hospital</option>
+                <option value="Krishna Hospital">Krishna Hospital</option>
+                <option value="Shashwat Hospital">Shashwat Hospital</option>
+            </select><br><br>
+        </from>
+        </div>
+    </div>
+
+
+    <!-- next Button -->
+    <div class="submit-container">
+        <button type="button" onclick="window.location.href='bed-selection.html'">Next</button>
+    </div>
+
+    <script>
+        // JavaScript to handle bed selection
+        const beds = document.querySelectorAll('.bed');
+        beds.forEach(bed => {
+            bed.addEventListener('click', () => {
+                if (!bed.classList.contains('occupied')) {
+                    beds.forEach(b => b.classList.remove('selected'));
+                    bed.classList.add('selected');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
